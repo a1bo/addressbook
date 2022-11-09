@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  web:
+    build: '.'
+    expose:
+      - 9003
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www/html/
+    environment:
+      XDEBUG_MODE: develop,debug
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql
+    volumes:
+            - ./init.sql:/data/application/init.sql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      
